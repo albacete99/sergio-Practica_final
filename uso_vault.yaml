@@ -1,0 +1,15 @@
+---
+- name: "Demostracion del vault"
+  hosts: dev
+  vars_files:
+    - vars/password.yaml
+  
+  tasks:
+  - name: "Generate la password del usuario pepe en sha512"
+    set_fact:
+      new_hash_pass: "{{ new_user_pass | password_hash ('sha512', new_user_secret ) }}"
+
+  - name: "Creacion del usuario"
+    user:
+      name: "{{ new_user_name }}"
+      password: "{{ new_hash_pass }}"
